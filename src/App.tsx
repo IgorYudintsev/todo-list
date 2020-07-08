@@ -12,8 +12,8 @@ function App() {
         {id: v1(), title: 'Redux', isDone: false}
     ])
 
-    function addTask(title:string){
-        let newTask= {id: v1(), title:title, isDone: false};
+    function addTask(title: string) {
+        let newTask = {id: v1(), title: title, isDone: false};
         setTasks([newTask, ...tasks])
     }
 
@@ -24,16 +24,24 @@ function App() {
 
     let tasksForTodolist = tasks;
     let [filter, setFilter] = useState('all');
-
     if (filter === 'active') {
-        tasksForTodolist = tasks.filter(f => f.isDone === true)
-    }
-    if (filter === 'completed') {
         tasksForTodolist = tasks.filter(f => f.isDone === false)
     }
+    if (filter === 'completed') {
+        tasksForTodolist = tasks.filter(f => f.isDone === true)
+    }
 
-    function  changeFilter(value: string) {
+    function changeFilter(value: string) {
         setFilter(value);
+    }
+
+    function changeStatus(id: string, isDone: boolean) {
+        let task = tasks.find(f => f.id === id);
+        if (task) {
+            task.isDone = !isDone;
+            setTasks([...tasks])
+        }
+
     }
 
     return (
@@ -42,11 +50,14 @@ function App() {
                 title={'What to learn'}
                 tasks={tasksForTodolist}
                 resultTasks={resultTasks}
-                changeFilter={ changeFilter}
+                changeFilter={changeFilter}
                 addTask={addTask}
+                changeStatus={changeStatus}
+                filter={filter}
             />
         </div>
     );
 }
+
 export default App;
 
