@@ -3,23 +3,28 @@
   display: flex;
 }
 
-.App div{
+.App > div {
   margin-right: 50px;
 }
 
 .error{
   border:red 1px solid;
-  background-color: salmon;
 }
 
 .error-message{
-  color:red
+  color:red;
 }
 
 .active-filter{
-  background-color: lightskyblue;
+  background-color: yellowgreen;
 }
 
 .is-done{
-  opacity:0.5;
+  opacity: 0.5;
+}
+
+.title{
+  font-size: 25px;
+  font-weight: 500;
+  margin-left: 15px;
 }
