@@ -2,6 +2,10 @@ import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
 import {EditTableSpan} from "./EditTableSpan";
+import {Button, FormControlLabel} from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from "@material-ui/core/IconButton";
+import Checkbox from "@material-ui/core/Checkbox";
 
 export type TaskType = {
     id: string
@@ -50,45 +54,53 @@ export function Todolist(props: PropsType) {
     }
 
     return <div>
-        <button onClick={deleteTodol}>X</button>
-       <EditTableSpan title={props.title} saveNewTitle={changeTodolistTitle}/>
-        {/*<span className={'title'} key={props.key}>{props.title}</span>*/}
+        <h3><Button onClick={deleteTodol}
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<DeleteIcon/>}
+        >Delete</Button></h3>
+        <EditTableSpan title={props.title} saveNewTitle={changeTodolistTitle}/>
         <AddItemForm addItem={addTask}/>
-        <ul>
+        <div>
             {
                 props.tasks.map(t => {
                     const changeTaskTitle = (newTitle: string) => {
                         props.changeTaskTitle(t.id, newTitle, props.id)
                     }
                     return (
-                        <li key={t.id}>
-                            <button onClick={() => {
+                        <div key={t.id}>
+                            <IconButton onClick={() => {
                                 props.removeTask(t.id, props.id)
-                            }}>x
-                            </button>
-                            <input onClick={() => {
-                                props.changeStatus(t.id, t.isDone, props.id)
-                            }} type="checkbox" checked={t.isDone}/>
+                            }} aria-label="delete">
+                                <DeleteIcon/>
+                            </IconButton>
+                            <FormControlLabel
+                                onClick={() => {
+                                    props.changeStatus(t.id, t.isDone, props.id)
+                                }}
+                                control={<Checkbox checked={t.isDone} name="checkedA"/>}
+                                label=""
+                            />
                             <EditTableSpan title={t.title} saveNewTitle={changeTaskTitle}/>
-                            {/*<span className={t.isDone && props.filter === 'all' ? 'is-done' : ''}>{t.title}</span>*/}
-                        </li>
+                        </div>
                     )
                 })
             }
-        </ul>
+        </div>
         <div>
-            <button className={props.filter === 'all' ? 'active-filter' : ''} onClick={() => {
+            <Button variant="contained" color={props.filter === 'all' ? "secondary" : "primary"} onClick={() => {
                 OnCgangeFilterAll()
             }}>All
-            </button>
-            <button className={props.filter === 'active' ? 'active-filter' : ''} onClick={() => {
+            </Button>
+            <Button variant="contained" color={props.filter === 'active' ? "secondary" : "primary"} onClick={() => {
                 OnCgangeFilterActive()
             }}>Active
-            </button>
-            <button className={props.filter === 'completed' ? 'active-filter' : ''} onClick={() => {
+            </Button>
+            <Button variant="contained" color={props.filter === 'completed' ? "secondary" : "primary"} onClick={() => {
                 OnCgangeFilterCompleted()
             }}>Completed
-            </button>
+            </Button>
         </div>
     </div>
 }
