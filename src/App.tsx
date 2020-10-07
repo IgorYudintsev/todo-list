@@ -15,11 +15,12 @@ export type TodoListType = {
     title: string;
     filter: FilterValuesType;
 }
+export type TaskStateType = {
+    [key: string]: Array<TaskType>
+}
 
 function App() {
-    type TaskStateType = {
-        [key: string]: Array<TaskType>
-    }
+
     let todoListId1 = v1();
     let todoListId2 = v1();
 
