@@ -13,3 +13,4 @@ ReactDOM.render(<Provider store={store}><AppWithRedux></AppWithRedux></Provider>
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+// 15.11.2020-React.memo+useCallback

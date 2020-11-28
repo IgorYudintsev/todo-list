@@ -7,7 +7,7 @@ type PropsType = {
     saveNewTitle: (newTitle: string) => void
 }
 
-export const EditTableSpan = (props: PropsType) => {
+export const EditTableSpan =React.memo((props: PropsType) => {
     let [editMode, setEditMode] = useState<boolean>(false);
     let [title, setTitle] = useState<string>(props.title);
     const activateEditeMode = () => {
@@ -16,10 +16,11 @@ export const EditTableSpan = (props: PropsType) => {
     }
     const detivateEditeMode = () => {
         setEditMode(false)
+        props.saveNewTitle(title);
     }
     const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value);
-        props.saveNewTitle(title);
+
     }
     return (
         editMode
@@ -28,4 +29,4 @@ export const EditTableSpan = (props: PropsType) => {
                          autoFocus={true} onChange={changeTitle}/>
             : <span onDoubleClick={activateEditeMode}>{props.title}</span>
     )
-}
+})

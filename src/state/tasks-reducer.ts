@@ -31,7 +31,7 @@ export type ChangeTaskTitleType = {
 type ActionType = ChangeTaskTitleType | RemoveTasksActionType | AddTaskActionType
     | ChangeTaskStatusType | AddTodolistActionType | RemoveTodolistActionType
 
-let initialState: TaskStateType = {
+let initialState:TaskStateType= {
     ['todoListId1']: [
         {id: v1(), title: "HTML&CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
@@ -44,7 +44,7 @@ let initialState: TaskStateType = {
     ]
 }
 
-export const tasksReducer = (state = initialState, action: ActionType) => {
+export const tasksReducer = (state=initialState, action: ActionType) => {
     switch (action.type) {
         case'REMOVE-TASK': {
             let copyState = {...state};
@@ -60,44 +60,23 @@ export const tasksReducer = (state = initialState, action: ActionType) => {
             return copyState;
         }
         case 'CHANGE-TASK-TITLE': {
-            // let copyState = {...state};
-            // let todoListTasks = copyState[action.todolistID];
-            // let task = todoListTasks.find(f => f.id === action.taskID);
-            // if (task) {
-            //     task.title = action.newTitle;
-            //     return copyState;
-            // } else {
-            //     return state
-            // }
 
-            let todoListTasks = state[action.todolistID];
-            // let newTasks=todoListTasks.map(t=>t.id===action.taskID
-            //     ?{...t,isDone:action.isDone}
-            //     :t);
-
-            return ({
-                ...state,
-                [action.todolistID]: todoListTasks.map(t => t.id === action.taskID
-                    ? {...t, title: action.newTitle}
-                    : t)
-            })
+            let copyState = {...state};
+            let todoListTasks = copyState[action.todolistID];
+            copyState[action.todolistID] = todoListTasks.map(f => {
+               if (f.id === action.taskID) {
+                   return{...f,title:action.newTitle}
+               }else{
+                   return f
+               }
+            });
+            return copyState
         }
         case 'CHANGE-TASK-STATUS': {
-            // let copyState = {...state};
-            let todoListTasks = state[action.todolistID];
-            // let newTasks=todoListTasks.map(t=>t.id===action.taskID
-            //     ?{...t,isDone:action.isDone}
-            //     :t);
-
-            return ({
-                ...state,
-                [action.todolistID]: todoListTasks.map(t => t.id === action.taskID
-                    ? {...t, isDone: action.isDone}
-                    : t)
-            })
+            let todolistTasks=state[action.todolistID]
+            return ({...state,[action.todolistID]:todolistTasks.map(t=>t.id===action.taskID?{...t,isDone:action.isDone}:t)});
         }
-
-               case 'ADD-TODOLIST': {
+        case 'ADD-TODOLIST': {
             return {...state, [action.todolistID]: []}
         }
         case'REMOVE-TODOLIST':

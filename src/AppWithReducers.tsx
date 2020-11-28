@@ -26,12 +26,10 @@ export type TodoListType = {
 export type TaskStateType = {
     [key: string]: Array<TaskType>
 }
-
+let todoListId1 = v1();
+let todoListId2 = v1();
 function AppWithReducers() {
-    let todoListId1 = v1();
-    let todoListId2 = v1();
-
-    let[todolists,dispatchTodolists]=useReducer(TodolistReducer,[
+     let[todolists,dispatchTodolists]=useReducer(TodolistReducer,[
         {id: todoListId1, title: 'What to Learn', filter: 'all'},
         {id: todoListId2, title: 'What to buy', filter: 'all'}
     ])
@@ -72,7 +70,7 @@ function AppWithReducers() {
         //     console.log(todoListId)//
         //     setTasks({...tasks})
         // }
-        dispatchTasks(changeTaskTitleAC(taskID, newTitle, todoListId));
+        dispatchTasks(changeTaskTitleAC(taskID, todoListId,newTitle));
     }
 
     function changeStatus(id: string, isDone: boolean, todoListId: string) {
@@ -118,7 +116,7 @@ function AppWithReducers() {
         dispatchTasks(action);
 
     }
-
+debugger
     return (
         <div className="App">
             <AppBar position="static">
@@ -140,6 +138,7 @@ function AppWithReducers() {
                 <p></p>
                 <Grid container spacing={3}>{
                     todolists.map(m => {
+                        debugger
                         let tasksForTodolist = tasks[m.id];
                         if (m.filter === "active") {
                             tasksForTodolist = tasks[m.id].filter(t => t.isDone === false);
